@@ -8,6 +8,7 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 				const light = (ind + 5) % 20 < 10;
 				return (
 					<div
+						key={ind}
 						className={clsx(
 							{
 								'bg-table-bg-light': light,
@@ -22,6 +23,7 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 							ind2;
 							return (
 								<div
+									key={ind2}
 									className={clsx('h-1/4', {
 										'border-b': ind < 13 * 5 || (ind >= 13 * 5 && ind2 !== 3),
 									})}

@@ -8,6 +8,7 @@ const Hours = () => {
 				const light = (ind + 1) % 4 < 2;
 				return (
 					<div
+						key={ind}
 						className={clsx(
 							{
 								'bg-hours-light': light,
