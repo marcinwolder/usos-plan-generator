@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useId, useRef, useState } from 'react';
 import { devModeContext } from './context/devContext';
 
 import { IoRemoveCircle } from 'react-icons/io5';
@@ -37,6 +37,8 @@ const Lecture: React.FC<{
 	const ref = useRef<HTMLDivElement>(null);
 	const devMode = useContext(devModeContext);
 
+	const id = useId();
+
 	// Disabled to increase readability
 	// eslint-disable-next-line prefer-const
 	let [hourStart, minuteStart] = lectureStartTime
@@ -50,7 +52,14 @@ const Lecture: React.FC<{
 	hourStop -= 7;
 
 	const Controls = devMode ? (
-		<div className='text-xs flex justify-center gap-2 absolute -top-5 right-0'>
+		<div
+			className={clsx(
+				'text-xs flex justify-center gap-2 absolute -top-4 -right-px border border-lecture-border border-b-0 px-1',
+				{
+					'bg-white': lectureType !== 'W' || lectureObligatory,
+					'bg-slate-200': lectureType === 'W' && !lectureObligatory,
+				}
+			)}>
 			<div
 				className='flex items-center gap-1 select-none'
 				onClick={() => {
@@ -62,10 +71,10 @@ const Lecture: React.FC<{
 				<input
 					checked={evenWeeks}
 					onChange={() => {}}
-					name='Parzyste'
+					id={'Parzyste' + id}
 					type='checkbox'
 				/>
-				<label htmlFor='Parzyste'>Parzyste</label>
+				<label>Parzyste</label>
 			</div>
 			<div
 				className='flex items-center gap-1 select-none'
@@ -78,10 +87,10 @@ const Lecture: React.FC<{
 				<input
 					checked={oddWeeks}
 					onChange={() => {}}
-					name='Nieparzyste'
+					id={'Nieparzyste' + id}
 					type='checkbox'
 				/>
-				<label htmlFor='Nieparzyste'>Nieparzyste</label>
+				<label>Nieparzyste</label>
 			</div>
 		</div>
 	) : null;
@@ -98,16 +107,18 @@ const Lecture: React.FC<{
 	const NotObligatory =
 		lectureType === 'W' ? (
 			devMode ? (
-				<div className='text-xs flex items-center gap-1 absolute bottom-2 right-2'>
+				<div
+					className='text-xs flex items-center gap-1 absolute bottom-2 right-8'
+					onClick={() => {
+						setLectureObligatory((val) => !val);
+					}}>
 					<input
 						checked={lectureObligatory}
-						onChange={() => {
-							setLectureObligatory((val) => !val);
-						}}
-						name='Obowiazkowy'
+						onChange={() => {}}
+						id={'Obowiazkowy' + id}
 						type='checkbox'
 					/>
-					<label htmlFor='Obowiazkowy'>Obowiązkowy?</label>
+					<label>Obowiązkowy?</label>
 				</div>
 			) : !lectureObligatory ? (
 				<div className='text-slate-500 text-xs absolute bottom-2 text-right w-full pr-4'>
@@ -118,6 +129,7 @@ const Lecture: React.FC<{
 	const Name = devMode ? (
 		<input
 			type='text'
+			id={'Name' + id}
 			className='w-full'
 			value={lectureName}
 			onChange={(e) => {
@@ -131,6 +143,7 @@ const Lecture: React.FC<{
 		<input
 			className='w-1/5'
 			type='text'
+			id={'StartTime' + id}
 			value={lectureStartTime}
 			onChange={(e) => {
 				setLectureStartTime(e.target.value);
@@ -143,6 +156,7 @@ const Lecture: React.FC<{
 		<input
 			className='w-1/5'
 			type='text'
+			id={'StopTime' + id}
 			value={lectureStopTime}
 			onChange={(e) => {
 				setLectureStopTime(e.target.value);
@@ -153,8 +167,9 @@ const Lecture: React.FC<{
 	);
 	const LectureGroup = devMode ? (
 		<input
-			className='w-6 text-center'
+			className='w-6 text-center ml-2'
 			type='text'
+			id={'Group' + id}
 			placeholder='gr.:'
 			value={lectureGroup}
 			onChange={(e) => {
@@ -166,6 +181,7 @@ const Lecture: React.FC<{
 	) : null;
 	const Type = devMode ? (
 		<select
+			id={'Type' + id}
 			value={lectureType}
 			onChange={(e) => {
 				setLectureType(e.target.value as TLectureType);
@@ -192,15 +208,15 @@ const Lecture: React.FC<{
 			)}
 			style={{
 				gridColumnStart: col,
-				gridRowStart: hourStart * 4 + minuteStart / 15 + 1,
-				gridRowEnd: hourStop * 4 + minuteStop / 15 + 1,
+				gridRowStart: hourStart * 60 + minuteStart + 1,
+				gridRowEnd: hourStop * 60 + minuteStop + 1,
 			}}>
 			<div
 				onClick={() => {
 					console.log(ref.current);
 					ref.current?.remove();
 				}}
-				className='absolute bottom-1 left-1 text-xl text-red-500 cursor-pointer z-20'
+				className='absolute bottom-1.5 right-1.5 text-xl text-red-500 cursor-pointer z-20'
 				style={{ display: devMode ? 'block' : 'none' }}>
 				<IoRemoveCircle />
 			</div>

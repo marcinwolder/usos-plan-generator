@@ -1,6 +1,12 @@
 import clsx from 'clsx';
+import { useContext } from 'react';
+import { devModeContext } from './context/devContext';
+import adminControlsContext from './context/adminControlsContext';
 
 const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
+	const lectures = [...((children as React.ReactNode[]) || [])];
+	const devMode = useContext(devModeContext);
+	const { editLectures } = useContext(adminControlsContext);
 	return (
 		<div className='relative grid grid-cols-5 grid-rows-[14]'>
 			{Array.from(Array(14 * 5)).map((val, ind) => {
@@ -24,6 +30,9 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 							return (
 								<div
 									key={ind2}
+									onClick={() => {
+										console.log('Eoo' + ind + '' + ind2);
+									}}
 									className={clsx('h-1/4', {
 										'border-b': ind < 13 * 5 || (ind >= 13 * 5 && ind2 !== 3),
 									})}
@@ -33,8 +42,12 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 					</div>
 				);
 			})}
-			<div className='absolute inset-0 grid grid-cols-5 grid-rows-[repeat(56,1fr)]'>
-				{children}
+			<div
+				className={clsx(
+					'absolute inset-0 grid grid-cols-5 grid-rows-[repeat(840,1fr)]',
+					{ '-z-10': devMode && !editLectures }
+				)}>
+				{...lectures}
 			</div>
 		</div>
 	);
