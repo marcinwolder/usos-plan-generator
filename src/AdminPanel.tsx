@@ -38,7 +38,7 @@ const AdminPanel = () => {
 						insertLeftCol,
 					'cursor-pointer': !insertLeftCol,
 				})}>
-				Wstaw w lewej kolumnie
+				Wstaw w lewej cześci
 			</div>
 			<div
 				onClick={() => {
@@ -50,7 +50,7 @@ const AdminPanel = () => {
 						insertRightCol,
 					'cursor-pointer': !insertRightCol,
 				})}>
-				Wstaw w prawej kolumnie
+				Wstaw w prawej części
 			</div>
 			<div
 				onClick={() => {

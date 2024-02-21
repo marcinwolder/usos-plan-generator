@@ -20,7 +20,7 @@ const Lecture: React.FC<{
 	timeStart,
 	timeStop,
 	type,
-	group,
+	group = 0,
 	col,
 	evenWeeksOnly = false,
 	oddWeeksOnly = false,
@@ -166,16 +166,18 @@ const Lecture: React.FC<{
 		lectureStopTime
 	);
 	const LectureGroup = devMode ? (
-		<input
-			className='w-6 text-center ml-2'
-			type='text'
-			id={'Group' + id}
-			placeholder='gr.:'
-			value={lectureGroup}
-			onChange={(e) => {
-				setLectureGroup(Number(e.target.value) || undefined);
-			}}
-		/>
+		<div className='ml-2 inline-block'>
+			gr.:
+			<input
+				className='w-6 text-center'
+				type='text'
+				id={'Group' + id}
+				value={lectureGroup}
+				onChange={(e) => {
+					setLectureGroup(Number(e.target.value) || 0);
+				}}
+			/>
+		</div>
 	) : lectureGroup ? (
 		`, gr. ${lectureGroup}`
 	) : null;

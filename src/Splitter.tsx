@@ -3,14 +3,14 @@ import React from 'react';
 const Splitter: React.FC<
 	React.PropsWithChildren<{
 		col: number;
-		cols: number;
+		subCols: number;
 	}>
-> = ({ col, cols, children }) => {
+> = ({ col, subCols, children }) => {
 	return (
 		<div
 			className='absolute inset-0 grid grid-rows-[repeat(840,1fr)]'
 			style={{
-				gridTemplateColumns: `repeat(${cols}, 1fr)`,
+				gridTemplateColumns: `repeat(${subCols}, 1fr)`,
 				gridColumnStart: col,
 				gridColumnEnd: col,
 			}}>

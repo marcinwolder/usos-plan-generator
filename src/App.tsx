@@ -101,7 +101,7 @@ const App = () => {
 								name='Badania operacyjne - Mateusz Ślażyński (316 bud. C2)'
 								evenWeeksOnly
 							/>
-							<Splitter cols={2} col={3}>
+							<Splitter subCols={2} col={3}>
 								<Lecture
 									col={1}
 									group={1}
