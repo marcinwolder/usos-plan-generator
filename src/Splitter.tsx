@@ -10,7 +10,7 @@ const Splitter: React.FC<
 		<div
 			className='absolute inset-0 grid grid-rows-[repeat(840,1fr)]'
 			style={{
-				gridTemplateColumns: `repeat(${subCols}, 1fr)`,
+				gridTemplateColumns: `repeat(${subCols}, auto)`,
 				gridColumnStart: col,
 				gridColumnEnd: col,
 			}}>

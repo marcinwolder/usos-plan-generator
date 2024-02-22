@@ -54,10 +54,10 @@ const Lecture: React.FC<{
 	const Controls = devMode ? (
 		<div
 			className={clsx(
-				'text-xs flex justify-center gap-2 absolute -top-4 -right-px border border-lecture-border border-b-0 px-1',
+				'text-xs flex justify-end absolute bottom-full -right-px border border-lecture-border border-b-0 px-1 flex-wrap w-fit',
 				{
 					'bg-white': lectureType !== 'W' || lectureObligatory,
-					'bg-slate-200': lectureType === 'W' && !lectureObligatory,
+					'bg-gray-100': lectureType === 'W' && !lectureObligatory,
 				}
 			)}>
 			<div
@@ -77,7 +77,7 @@ const Lecture: React.FC<{
 				<label>Parzyste</label>
 			</div>
 			<div
-				className='flex items-center gap-1 select-none'
+				className='ml-2 flex items-center gap-1 select-none'
 				onClick={() => {
 					setOddWeeks((val) => {
 						if (!val) setEvenWeeks(false);
@@ -95,12 +95,12 @@ const Lecture: React.FC<{
 		</div>
 	) : null;
 	const EvenWeeksOnly = evenWeeks ? (
-		<div className='text-red-400 text-xs bg-red-100 px-1 py-0.5 border-b border border-red-300 w-max'>
+		<div className='text-red-400 text-[0.6em] bg-white px-1 border-b border border-lecture-border w-max pb-0.5'>
 			W tygodnie parzyste
 		</div>
 	) : null;
 	const OddWeeksOnly = oddWeeks ? (
-		<div className='text-blue-400 text-xs bg-blue-100 px-1 py-0.5 border-b border border-blue-300 w-max'>
+		<div className='text-blue-400 text-[0.6em] bg-white px-1 border-b border border-lecture-border w-max pb-0.5'>
 			W tygodnie nieparzyste
 		</div>
 	) : null;
@@ -118,10 +118,10 @@ const Lecture: React.FC<{
 						id={'Obowiazkowy' + id}
 						type='checkbox'
 					/>
-					<label>Obowiązkowy?</label>
+					<label>Obow.?</label>
 				</div>
 			) : !lectureObligatory ? (
-				<div className='text-slate-500 text-xs absolute bottom-2 text-right w-full pr-4'>
+				<div className='text-slate-500 text-[0.6em] absolute bottom-2 text-right w-full pr-4 italic'>
 					*Nieobowiązkowy
 				</div>
 			) : null
@@ -200,12 +200,15 @@ const Lecture: React.FC<{
 
 	return (
 		<div
+			key={'' + timeStart + timeStop + evenWeeks}
 			ref={ref}
 			className={clsx(
 				'relative m-0.5 border border-lecture-border p-1 row-start-4 row-end-10 z-10',
 				{
 					'bg-white': lectureType !== 'W' || lectureObligatory,
-					'bg-slate-200': lectureType === 'W' && !lectureObligatory,
+					'bg-gray-100': lectureType === 'W' && !lectureObligatory,
+					'border-l-2 border-l-red-400': evenWeeks,
+					'border-l-2 border-l-blue-400': oddWeeks,
 				}
 			)}
 			style={{
@@ -215,7 +218,6 @@ const Lecture: React.FC<{
 			}}>
 			<div
 				onClick={() => {
-					console.log(ref.current);
 					ref.current?.remove();
 				}}
 				className='absolute bottom-1.5 right-1.5 text-xl text-red-500 cursor-pointer z-20'
@@ -226,7 +228,7 @@ const Lecture: React.FC<{
 				{StartTime} - {StopTime} - {Type}
 				{LectureGroup}
 			</div>
-			<div className='p-1 flex justify-center items-center h-full text-xs font-semibold'>
+			<div className='p-1 flex justify-center items-center h-full text-xs'>
 				{Name}
 			</div>
 			{Controls}

@@ -9,17 +9,19 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 	const [lectures, setLectures] = useState([
 		...((children as React.ReactNode[]) || []),
 	]);
-	const mondayLectures = [] as React.ReactNode[];
-	const tuesdayLectures = [] as React.ReactNode[];
-	const wednesdayLectures = [] as React.ReactNode[];
-	const thursdayLectures = [] as React.ReactNode[];
-	const fridayLectures = [] as React.ReactNode[];
+	const [daySpecLectures, setDaySpecLectures] = useState([
+		[] as React.ReactNode[],
+		[] as React.ReactNode[],
+		[] as React.ReactNode[],
+		[] as React.ReactNode[],
+		[] as React.ReactNode[],
+	]);
 	const devMode = useContext(devModeContext);
 	const {
 		editLectures,
 		insertFullCol,
-		// insertLeftCol,
-		// insertRightCol,
+		insertLeftCol,
+		insertRightCol,
 		clearSelection,
 		setEditLectures,
 	} = useContext(adminControlsContext);
@@ -67,11 +69,55 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 													/>,
 												];
 											});
+										} else if (insertLeftCol) {
+											const newCol = [
+												...daySpecLectures[ind % 5],
+												<Lecture
+													col={1}
+													name='Nazwa'
+													timeStart={
+														Math.floor(ind / 5) + 7 + ':' + (ind2 * 15 || '00')
+													}
+													timeStop={
+														Math.floor(ind / 5) + 8 + ':' + (ind2 + 2) * 15
+													}
+													type='W'
+												/>,
+											];
+											setDaySpecLectures((lec) => {
+												const newLec = [] as React.ReactNode[][];
+												lec.forEach((arr, index) => {
+													if (index !== ind % 5) newLec.push(arr);
+													else newLec.push(newCol);
+												});
+												return newLec;
+											});
+										} else if (insertRightCol) {
+											const newCol = [
+												...daySpecLectures[ind % 5],
+												<Lecture
+													col={2}
+													name='Nazwa'
+													timeStart={
+														Math.floor(ind / 5) + 7 + ':' + (ind2 * 15 || '00')
+													}
+													timeStop={
+														Math.floor(ind / 5) + 8 + ':' + (ind2 + 2) * 15
+													}
+													type='W'
+												/>,
+											];
+											setDaySpecLectures((lec) => {
+												const newLec = [] as React.ReactNode[][];
+												lec.forEach((arr, index) => {
+													if (index !== ind % 5) newLec.push(arr);
+													else newLec.push(newCol);
+												});
+												return newLec;
+											});
 										}
 										clearSelection();
 										setEditLectures(true);
-										console.log(Math.floor(ind / 5));
-										console.log(Math.floor(ind / 5) + 7 + ':' + ind2 * 15);
 									}}
 									className={clsx('h-1/4', {
 										'border-b': ind < 13 * 5 || (ind >= 13 * 5 && ind2 !== 3),
@@ -90,19 +136,19 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 				<>
 					{...lectures}
 					<Splitter col={1} subCols={2}>
-						{...mondayLectures}
+						{...daySpecLectures[0]}
 					</Splitter>
 					<Splitter col={2} subCols={2}>
-						{...tuesdayLectures}
+						{...daySpecLectures[1]}
 					</Splitter>
 					<Splitter col={3} subCols={2}>
-						{...wednesdayLectures}
+						{...daySpecLectures[2]}
 					</Splitter>
 					<Splitter col={4} subCols={2}>
-						{...thursdayLectures}
+						{...daySpecLectures[3]}
 					</Splitter>
 					<Splitter col={5} subCols={2}>
-						{...fridayLectures}
+						{...daySpecLectures[4]}
 					</Splitter>
 				</>
 			</div>

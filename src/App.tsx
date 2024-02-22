@@ -4,17 +4,31 @@ import Hours from './Hours';
 import Lecture from './Lecture';
 import Plan from './Plan';
 import Splitter from './Splitter';
-import { FaDev } from 'react-icons/fa6';
+import { FaDev, FaCamera } from 'react-icons/fa6';
 import { devModeContext } from './context/devContext';
 import clsx from 'clsx';
 import AdminPanel from './AdminPanel';
 import AdminControlsProvider from './context/providers/AdminControlsProvider';
+import html2canvas from 'html2canvas';
 
 const App = () => {
 	const [devMode, setDevMode] = useState(false);
+	const [planName, setPlanName] = useState('AGH, ISI 2023/24 - S2');
+
 	return (
 		<AdminControlsProvider>
 			<devModeContext.Provider value={devMode}>
+				<div
+					className='absolute top-0.5 right-2 bg-slate-400 p-1 rounded-sm text-white cursor-pointer hover:bg-slate-500'
+					onClick={() => {
+						html2canvas(document.querySelector('#capture') as HTMLElement).then(
+							(canvas) => {
+								document.body.appendChild(canvas);
+							}
+						);
+					}}>
+					<FaCamera />
+				</div>
 				<div
 					className={clsx(
 						'hover:text-slate-600 w-min active:text-slate-800 absolute',
@@ -30,13 +44,25 @@ const App = () => {
 						<AdminPanel />
 					</div>
 				) : null}
-				<div className='flex items-center justify-center min-h-screen'>
+				<div className='flex items-center justify-center'>
 					<div
-						className='border rounded-md grid w-5/6 mb-16'
+						id='capture'
+						className='border rounded-md grid w-5/6'
 						style={{ gridTemplateColumns: '60px 1fr' }}>
 						<div className='col-span-2 bg-stone-600 text-white p-2 rounded-t-md'>
 							Plan zajęć:{' '}
-							<span className='font-bold'>AGH, ISI 2023/24 - S2</span>
+							{devMode ? (
+								<input
+									type='text'
+									className='text-black'
+									value={planName}
+									onChange={(e) => {
+										setPlanName(e.target.value);
+									}}
+								/>
+							) : (
+								<span className='font-bold'>{planName}</span>
+							)}
 						</div>
 						<div></div>
 						<DaysComp />
