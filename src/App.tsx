@@ -4,12 +4,12 @@ import Hours from './Hours';
 import Lecture from './Lecture';
 import Plan from './Plan';
 import Splitter from './Splitter';
-import { FaDev, FaCamera } from 'react-icons/fa6';
+import { FaDev } from 'react-icons/fa6';
 import { devModeContext } from './context/devContext';
 import clsx from 'clsx';
 import AdminPanel from './AdminPanel';
 import AdminControlsProvider from './context/providers/AdminControlsProvider';
-import html2canvas from 'html2canvas';
+import Ss from './Ss';
 
 const App = () => {
 	const [devMode, setDevMode] = useState(false);
@@ -18,17 +18,7 @@ const App = () => {
 	return (
 		<AdminControlsProvider>
 			<devModeContext.Provider value={devMode}>
-				<div
-					className='absolute top-0.5 right-2 bg-slate-400 p-1 rounded-sm text-white cursor-pointer hover:bg-slate-500'
-					onClick={() => {
-						html2canvas(document.querySelector('#capture') as HTMLElement).then(
-							(canvas) => {
-								document.body.appendChild(canvas);
-							}
-						);
-					}}>
-					<FaCamera />
-				</div>
+				<Ss />
 				<div
 					className={clsx(
 						'hover:text-slate-600 w-min active:text-slate-800 absolute',

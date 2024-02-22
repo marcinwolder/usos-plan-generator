@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/core": "^7.5.3",
+    "@mantine/hooks": "^7.5.3",
+    "@mantine/modals": "^7.5.3",
     "clsx": "^2.1.0",
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",
