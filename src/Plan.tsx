@@ -3,28 +3,20 @@ import { useContext, useState } from 'react';
 import { devModeContext } from './context/devContext';
 import adminControlsContext from './context/adminControlsContext';
 import Splitter from './Splitter';
-import Lecture from './Lecture';
+import lecturesContext from './context/lecturesContext';
 
 const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
-	const [lectures, setLectures] = useState([
-		...((children as React.ReactNode[]) || []),
-	]);
-	const [daySpecLectures, setDaySpecLectures] = useState([
-		[] as React.ReactNode[],
-		[] as React.ReactNode[],
-		[] as React.ReactNode[],
-		[] as React.ReactNode[],
-		[] as React.ReactNode[],
-	]);
+	const { addLecture, lectures } = useContext(lecturesContext);
+	const [lecturesOLD] = useState([...((children as React.ReactNode[]) || [])]);
 	const devMode = useContext(devModeContext);
 	const {
 		editLectures,
 		insertFullCol,
 		insertLeftCol,
-		insertRightCol,
 		clearSelection,
 		setEditLectures,
 	} = useContext(adminControlsContext);
+
 	return (
 		<div className='relative grid grid-cols-5 grid-rows-[14]'>
 			{Array.from(Array(14 * 5)).map((val, ind) => {
@@ -49,73 +41,19 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 								<div
 									key={ind2}
 									onClick={() => {
-										if (insertFullCol) {
-											setLectures((lec) => {
-												return [
-													...lec,
-													<Lecture
-														col={(ind % 5) + 1}
-														name='Nazwa'
-														timeStart={
-															Math.floor(ind / 5) +
-															7 +
-															':' +
-															(ind2 * 15 || '00')
-														}
-														timeStop={
-															Math.floor(ind / 5) + 8 + ':' + (ind2 + 2) * 15
-														}
-														type='W'
-													/>,
-												];
-											});
-										} else if (insertLeftCol) {
-											const newCol = [
-												...daySpecLectures[ind % 5],
-												<Lecture
-													col={1}
-													name='Nazwa'
-													timeStart={
-														Math.floor(ind / 5) + 7 + ':' + (ind2 * 15 || '00')
-													}
-													timeStop={
-														Math.floor(ind / 5) + 8 + ':' + (ind2 + 2) * 15
-													}
-													type='W'
-												/>,
-											];
-											setDaySpecLectures((lec) => {
-												const newLec = [] as React.ReactNode[][];
-												lec.forEach((arr, index) => {
-													if (index !== ind % 5) newLec.push(arr);
-													else newLec.push(newCol);
-												});
-												return newLec;
-											});
-										} else if (insertRightCol) {
-											const newCol = [
-												...daySpecLectures[ind % 5],
-												<Lecture
-													col={2}
-													name='Nazwa'
-													timeStart={
-														Math.floor(ind / 5) + 7 + ':' + (ind2 * 15 || '00')
-													}
-													timeStop={
-														Math.floor(ind / 5) + 8 + ':' + (ind2 + 2) * 15
-													}
-													type='W'
-												/>,
-											];
-											setDaySpecLectures((lec) => {
-												const newLec = [] as React.ReactNode[][];
-												lec.forEach((arr, index) => {
-													if (index !== ind % 5) newLec.push(arr);
-													else newLec.push(newCol);
-												});
-												return newLec;
-											});
-										}
+										const typeName = insertFullCol
+											? 'fullColumn'
+											: insertLeftCol
+											? 'leftSubColumn'
+											: 'rightSubColumn';
+
+										addLecture(
+											typeName,
+											(ind % 5) + 1,
+											Math.floor(ind / 5) + 7 + ':' + (ind2 * 15 || '00'),
+											Math.floor(ind / 5) + 8 + ':' + (ind2 + 2) * 15
+										);
+
 										clearSelection();
 										setEditLectures(true);
 									}}
@@ -134,21 +72,34 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 					{ '-z-10': devMode && !editLectures }
 				)}>
 				<>
-					{...lectures}
+					{...lecturesOLD}
+					{...lectures
+						.filter((lec) => lec.type === 'fullColumn')
+						.map((lec) => lec.el)}
 					<Splitter col={1} subCols={2}>
-						{...daySpecLectures[0]}
+						{...lectures
+							.filter((lec) => lec.type !== 'fullColumn' && lec.day === 1)
+							.map((lec) => lec.el)}
 					</Splitter>
 					<Splitter col={2} subCols={2}>
-						{...daySpecLectures[1]}
+						{...lectures
+							.filter((lec) => lec.type !== 'fullColumn' && lec.day === 2)
+							.map((lec) => lec.el)}
 					</Splitter>
 					<Splitter col={3} subCols={2}>
-						{...daySpecLectures[2]}
+						{...lectures
+							.filter((lec) => lec.type !== 'fullColumn' && lec.day === 3)
+							.map((lec) => lec.el)}
 					</Splitter>
 					<Splitter col={4} subCols={2}>
-						{...daySpecLectures[3]}
+						{...lectures
+							.filter((lec) => lec.type !== 'fullColumn' && lec.day === 4)
+							.map((lec) => lec.el)}
 					</Splitter>
 					<Splitter col={5} subCols={2}>
-						{...daySpecLectures[4]}
+						{...lectures
+							.filter((lec) => lec.type !== 'fullColumn' && lec.day === 5)
+							.map((lec) => lec.el)}
 					</Splitter>
 				</>
 			</div>

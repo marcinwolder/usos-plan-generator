@@ -12,6 +12,7 @@ const Lecture: React.FC<{
 	timeStop: string;
 	group?: number;
 	col: number;
+	onRemove: (ref: React.RefObject<HTMLDivElement>) => void;
 	type: TLectureType;
 	evenWeeksOnly?: boolean;
 	oddWeeksOnly?: boolean;
@@ -24,6 +25,7 @@ const Lecture: React.FC<{
 	col,
 	evenWeeksOnly = false,
 	oddWeeksOnly = false,
+	onRemove,
 }) => {
 	const [oddWeeks, setOddWeeks] = useState(oddWeeksOnly);
 	const [evenWeeks, setEvenWeeks] = useState(evenWeeksOnly);
@@ -218,7 +220,7 @@ const Lecture: React.FC<{
 			}}>
 			<div
 				onClick={() => {
-					ref.current?.remove();
+					onRemove(ref);
 				}}
 				className='absolute bottom-1.5 right-1.5 text-xl text-red-500 cursor-pointer z-20'
 				style={{ display: devMode ? 'block' : 'none' }}>

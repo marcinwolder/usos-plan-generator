@@ -16,7 +16,7 @@ const Ss = () => {
 				title='Zdjęcie planu:'
 				size={'100%'}
 				centered>
-				<div id='ss' className=''></div>
+				<div id='ss'></div>
 			</Modal>
 
 			<div
