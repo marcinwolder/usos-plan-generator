@@ -259,7 +259,7 @@ const Lecture: React.FC<{
 				{StartTime} - {StopTime} - {Type}
 				{LectureGroup}
 			</div>
-			<div className='p-1 flex justify-center items-center h-full text-[0.65em]'>
+			<div className='p-1 flex justify-center items-center h-full text-[0.65em] text-center'>
 				{Name}
 			</div>
 			{Controls}
