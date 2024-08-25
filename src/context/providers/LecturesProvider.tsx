@@ -120,8 +120,8 @@ const LecturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 								obligatory={obligatory} />
 						),
 						id: currId,
-						displayType,
-					} as unknown as ILecture,
+						type: displayType,
+					} as ILecture,
 				];
 				return newLectures;
 			});

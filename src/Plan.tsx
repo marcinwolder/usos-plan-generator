@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { devModeContext } from './context/devContext';
 import adminControlsContext from './context/adminControlsContext';
 import Splitter from './Splitter';
@@ -16,6 +16,10 @@ const Plan: React.FC<React.PropsWithChildren> = ({ children }) => {
 		clearSelection,
 		setEditLectures,
 	} = useContext(adminControlsContext);
+
+	useEffect(() => {
+		console.log("🚀 ~ useEffect ~ lectures:", lectures)
+	});
 
 	return (
 		<div className='relative grid grid-cols-5 grid-rows-[14]'>
