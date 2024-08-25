@@ -57,6 +57,7 @@ const App = () => {
 					<Hours />
 					<Plan>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={1}
 							group={1}
@@ -66,6 +67,7 @@ const App = () => {
 							name='Teoria grafów - Adam Sędziwy (H24 bud. HB1B2)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={1}
 							group={1}
@@ -75,6 +77,7 @@ const App = () => {
 							name='Matematyka dyskretna - Andrzej Bielecki (224 bud. C2)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={2}
 							group={1}
@@ -85,6 +88,7 @@ const App = () => {
 							C2)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={2}
 							group={1}
@@ -94,6 +98,7 @@ const App = () => {
 							name='Fizyka 1 - Magdalena Szczerbowska-Boruchowska (B bud. D10)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={2}
 							group={8}
@@ -104,6 +109,7 @@ const App = () => {
 							C2)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={2}
 							group={1}
@@ -113,6 +119,7 @@ const App = () => {
 							name='Podstawy grafiki komputerowej - Jędrzej Byrski (on-line bud. B1)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={3}
 							group={8}
@@ -124,6 +131,7 @@ const App = () => {
 						/>
 						<Splitter subCols={2} col={3}>
 							<Lecture
+								onUpdate={()=>{}}
 								onRemove={(ref) => ref.current?.remove()}
 								col={1}
 								group={1}
@@ -134,6 +142,7 @@ const App = () => {
 								oddWeeksOnly
 							/>
 							<Lecture
+								onUpdate={()=>{}}
 								onRemove={(ref) => ref.current?.remove()}
 								col={2}
 								group={1}
@@ -145,6 +154,7 @@ const App = () => {
 							/>
 						</Splitter>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={3}
 							group={1}
@@ -154,6 +164,7 @@ const App = () => {
 							name='Podstawy programowania 2 - Piotr Szwed (on-line bud. B1)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={4}
 							group={4}
@@ -163,6 +174,7 @@ const App = () => {
 							name='Teoria grafów - Adam Sędziwy (210 bud. B5)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={4}
 							timeStart='12:00'
@@ -171,6 +183,7 @@ const App = () => {
 							name='Język angielski 1/3 (3.09 bud. C7)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={4}
 							group={4}
@@ -181,6 +194,7 @@ const App = () => {
 							evenWeeksOnly
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={4}
 							group={4}
@@ -190,6 +204,7 @@ const App = () => {
 							name='Algorytmy i struktury danych - Filip Kamiński (216 bud. C2)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={4}
 							group={4}
@@ -200,6 +215,7 @@ const App = () => {
 							evenWeeksOnly
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={5}
 							group={1}
@@ -209,6 +225,7 @@ const App = () => {
 							name='Algorytmy i struktury danych - Konrad Kułakowski (224 bud. C2)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={5}
 							group={8}
@@ -218,6 +235,7 @@ const App = () => {
 							name='Podstawy programowania 2 - Grzegorz Bazior (511a bud. C1)'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={5}
 							group={33}
@@ -227,6 +245,7 @@ const App = () => {
 							name='Wychowanie fizyczne 2 - basen'
 						/>
 						<Lecture
+							onUpdate={()=>{}}
 							onRemove={(ref) => ref.current?.remove()}
 							col={5}
 							group={8}

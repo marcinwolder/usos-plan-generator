@@ -1,9 +1,10 @@
 import { createContext } from 'react';
+import { TLectureType } from '../Lecture';
 
-export type TLectureType = 'fullColumn' | 'leftSubColumn' | 'rightSubColumn';
+export type TLectureDisplayType = 'fullColumn' | 'leftSubColumn' | 'rightSubColumn';
 
 export interface ILecture {
-	type: TLectureType;
+	type: TLectureDisplayType;
 	day: number;
 	id: number;
 	el: React.ReactNode;
@@ -12,11 +13,24 @@ export interface ILecture {
 const lecturesContext = createContext<{
 	lectures: ILecture[];
 	addLecture: (
-		type: TLectureType,
+		type: TLectureDisplayType,
 		day: number,
 		timeStart: string,
 		timeStop: string
 	) => number;
-}>({ lectures: [], addLecture: () => 0 });
+	updateLecture: (
+		day: number, 
+		displayType: TLectureDisplayType,
+		currId: number,
+		name: string,
+		timeStart: string,
+		timeStop: string,
+		group: number,
+		type: TLectureType,
+		evenWeeksOnly: boolean,
+		oddWeeksOnly: boolean,
+		obligatory: boolean
+	) => void
+}>({ lectures: [], addLecture: () => 0, updateLecture: ()=>{} });
 
 export default lecturesContext;

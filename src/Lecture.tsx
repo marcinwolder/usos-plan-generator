@@ -1,10 +1,11 @@
 import clsx from 'clsx';
-import React, { useContext, useId, useRef, useState } from 'react';
+import React, { useContext, useEffect, useId, useRef, useState } from 'react';
 import { devModeContext } from './context/devContext';
 
 import { IoRemoveCircle } from 'react-icons/io5';
+import adminControlsContext from './context/adminControlsContext';
 
-type TLectureType = 'W' | 'CWL' | 'CWA' | 'LEKT' | 'WF';
+export type TLectureType = 'W' | 'CWL' | 'CWA' | 'CWP' | 'LEKT' | 'WF';
 
 const Lecture: React.FC<{
 	name: string;
@@ -13,9 +14,18 @@ const Lecture: React.FC<{
 	group?: number;
 	col: number;
 	onRemove: (ref: React.RefObject<HTMLDivElement>) => void;
+	onUpdate: (name: string,
+		timeStart: string,
+		timeStop: string,
+		group: number,
+		type: TLectureType,
+		evenWeeksOnly: boolean,
+		oddWeeksOnly: boolean,
+		obligatory: boolean) => void;
 	type: TLectureType;
 	evenWeeksOnly?: boolean;
 	oddWeeksOnly?: boolean;
+	obligatory?: boolean;
 }> = ({
 	name,
 	timeStart,
@@ -25,7 +35,9 @@ const Lecture: React.FC<{
 	col,
 	evenWeeksOnly = false,
 	oddWeeksOnly = false,
+	obligatory = false,
 	onRemove,
+	onUpdate
 }) => {
 	const [oddWeeks, setOddWeeks] = useState(oddWeeksOnly);
 	const [evenWeeks, setEvenWeeks] = useState(evenWeeksOnly);
@@ -34,10 +46,11 @@ const Lecture: React.FC<{
 	const [lectureStopTime, setLectureStopTime] = useState(timeStop);
 	const [lectureType, setLectureType] = useState<TLectureType>(type);
 	const [lectureGroup, setLectureGroup] = useState(group);
-	const [lectureObligatory, setLectureObligatory] = useState(false);
+	const [lectureObligatory, setLectureObligatory] = useState(obligatory);
 
 	const ref = useRef<HTMLDivElement>(null);
 	const devMode = useContext(devModeContext);
+	const {insertFullCol} = useContext(adminControlsContext)
 
 	const id = useId();
 
@@ -52,6 +65,21 @@ const Lecture: React.FC<{
 		.split(':')
 		.map((val) => Number(val));
 	hourStop -= 7;
+
+	useEffect(()=>{
+		if (minuteStart>=60){
+			setLectureStartTime(`${hourStart+7+Math.floor(minuteStart/60)}:${(minuteStart%60)}`)
+		}
+		if (minuteStop>=60){
+			setLectureStopTime(`${hourStop+7+Math.floor(minuteStop/60)}:${minuteStop%60}`)
+		}
+	})
+
+	useEffect(() => {
+		if (devMode===false || insertFullCol == true){
+			onUpdate(lectureName, lectureStartTime, lectureStopTime, lectureGroup, lectureType, evenWeeks, oddWeeks, lectureObligatory);
+		}
+	}, [devMode, insertFullCol]);
 
 	const Controls = devMode ? (
 		<div
@@ -192,6 +220,7 @@ const Lecture: React.FC<{
 			}}>
 			<option value='W'>W</option>
 			<option value='CWL'>CWL</option>
+			<option value='CWP'>CWP</option>
 			<option value='CWA'>CWA</option>
 			<option value='WF'>WF</option>
 			<option value='LEKT'>LEKT</option>
@@ -230,7 +259,7 @@ const Lecture: React.FC<{
 				{StartTime} - {StopTime} - {Type}
 				{LectureGroup}
 			</div>
-			<div className='p-1 flex justify-center items-center h-full text-xs'>
+			<div className='p-1 flex justify-center items-center h-full text-[0.65em]'>
 				{Name}
 			</div>
 			{Controls}

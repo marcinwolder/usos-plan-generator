@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import lecturesContext, { ILecture, TLectureType } from '../lecturesContext';
-import Lecture from '../../Lecture';
+import lecturesContext, { ILecture, TLectureDisplayType } from '../lecturesContext';
+import Lecture, { TLectureType } from '../../Lecture';
 
 const LecturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 	const id = useRef(0);
 	const [lectures, setLectures] = useState<ILecture[]>([]);
 	const addLecture = (
-		type: TLectureType,
+		displayType: TLectureDisplayType,
 		day: number,
 		timeStart: string,
 		timeStop: string
@@ -22,8 +22,28 @@ const LecturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 						onRemove={() => {
 							removeLecture(currId);
 						}}
+						onUpdate={(name: string,
+							timeStart: string,
+							timeStop: string,
+							group: number,
+							type: TLectureType,
+							evenWeeksOnly: boolean,
+							oddWeeksOnly: boolean,
+							obligatory: boolean) => {
+							updateLecture(day, 
+								displayType,
+								currId,
+								name,
+								timeStart,
+								timeStop,
+								group,
+								type,
+								evenWeeksOnly,
+								oddWeeksOnly,
+								obligatory);
+						} }
 						col={
-							type === 'leftSubColumn' ? 1 : type === 'rightSubColumn' ? 2 : day
+							displayType === 'leftSubColumn' ? 1 : displayType === 'rightSubColumn' ? 2 : day
 						}
 						name='Nazwa'
 						timeStart={timeStart}
@@ -32,7 +52,7 @@ const LecturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 					/>
 				),
 				id: currId,
-				type,
+				type: displayType,
 			} as ILecture,
 		];
 		id.current++;
@@ -44,8 +64,70 @@ const LecturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 			return lectures.filter((lec) => lec.id !== id);
 		});
 	};
+	const updateLecture = (
+			day: number, 
+			displayType: TLectureDisplayType,
+			currId: number,
+			name: string,
+			timeStart: string,
+			timeStop: string,
+			group: number,
+			type: TLectureType,
+			evenWeeksOnly: boolean,
+			oddWeeksOnly: boolean,
+			obligatory: boolean
+		) => {
+			setLectures((lectures) => {
+				let newLectures = lectures.filter((lec) => lec.id !== currId);
+				newLectures = [
+					...newLectures,
+					{
+						day,
+						el: (
+							<Lecture
+								key={currId}
+								onRemove={() => {
+									removeLecture(currId);
+								} }
+								onUpdate={(name: string,
+									timeStart: string,
+									timeStop: string,
+									group: number,
+									type: TLectureType,
+									evenWeeksOnly: boolean,
+									oddWeeksOnly: boolean,
+									obligatory: boolean) => {
+									updateLecture(day, 
+										displayType,
+										currId,
+										name,
+										timeStart,
+										timeStop,
+										group,
+										type,
+										evenWeeksOnly,
+										oddWeeksOnly,
+										obligatory);
+								} }
+								col={displayType === 'leftSubColumn' ? 1 : displayType === 'rightSubColumn' ? 2 : day}
+								name={name}
+								timeStart={timeStart}
+								timeStop={timeStop}
+								type={type}
+								group={group}
+								evenWeeksOnly={evenWeeksOnly}
+								oddWeeksOnly={oddWeeksOnly}
+								obligatory={obligatory} />
+						),
+						id: currId,
+						displayType,
+					} as unknown as ILecture,
+				];
+				return newLectures;
+			});
+	};
 	return (
-		<lecturesContext.Provider value={{ lectures, addLecture }}>
+		<lecturesContext.Provider value={{ lectures, addLecture, updateLecture }}>
 			{children}
 		</lecturesContext.Provider>
 	);
