@@ -68,10 +68,12 @@ const Lecture: React.FC<{
 
 	useEffect(()=>{
 		if (minuteStart>=60){
-			setLectureStartTime(`${hourStart+7+Math.floor(minuteStart/60)}:${(minuteStart%60)}`)
+			const textMinuteStart = minuteStart%60 < 10 ? `0${minuteStart%60}` : minuteStart%60;
+			setLectureStartTime(`${hourStart+7+Math.floor(minuteStart/60)}:${textMinuteStart}`)
 		}
 		if (minuteStop>=60){
-			setLectureStopTime(`${hourStop+7+Math.floor(minuteStop/60)}:${minuteStop%60}`)
+			const textMinuteStop = minuteStop%60 < 10 ? `0${minuteStop%60}` : minuteStop%60;
+			setLectureStopTime(`${hourStop+7+Math.floor(minuteStop/60)}:${textMinuteStop}`)
 		}
 	})
 

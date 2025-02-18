@@ -127,7 +127,7 @@ const LecturesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 			});
 	};
 	return (
-		<lecturesContext.Provider value={{ lectures, addLecture, updateLecture }}>
+		<lecturesContext.Provider value={{ lectures, addLecture, updateLecture, setLectures }}>
 			{children}
 		</lecturesContext.Provider>
 	);

@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 import { TLectureType } from '../Lecture';
 
 export type TLectureDisplayType = 'fullColumn' | 'leftSubColumn' | 'rightSubColumn';
@@ -12,6 +12,7 @@ export interface ILecture {
 
 const lecturesContext = createContext<{
 	lectures: ILecture[];
+	setLectures: Dispatch<SetStateAction<ILecture[]>>
 	addLecture: (
 		type: TLectureDisplayType,
 		day: number,
@@ -31,6 +32,6 @@ const lecturesContext = createContext<{
 		oddWeeksOnly: boolean,
 		obligatory: boolean
 	) => void
-}>({ lectures: [], addLecture: () => 0, updateLecture: ()=>{} });
+}>({ lectures: [], addLecture: () => 0, updateLecture: () => {}, setLectures: () => null });
 
 export default lecturesContext;

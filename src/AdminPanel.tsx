@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { useContext } from 'react';
 import adminControlsContext from './context/adminControlsContext';
+import lecturesContext from './context/lecturesContext';
 
 const AdminPanel = () => {
 	const {
@@ -14,6 +15,9 @@ const AdminPanel = () => {
 		setInsertRightCol,
 		clearSelection,
 	} = useContext(adminControlsContext);
+	const {
+		setLectures
+	} = useContext(lecturesContext)
 	return (
 		<div className='pl-1 h-24 flex flex-col justify-center items-start'>
 			<div
@@ -63,6 +67,13 @@ const AdminPanel = () => {
 					'cursor-pointer': !editLectures,
 				})}>
 				Edytuj plan
+			</div>
+			<div
+				onClick={() => {
+					setLectures([]);
+				}}
+				className={clsx('select-none min-w-6 h-6 text-xs flex items-center cursor-pointer')}>
+				Wyczyść plan
 			</div>
 		</div>
 	);
